@@ -5,5 +5,5 @@ All notable changes to this repository, newest first. The format follows [Keep a
 ## [Unreleased]
 
 ### Added
-
+- `docker compose up` starts the web front, the API and PostgreSQL with one command
 - Course API: containerized with a multi-stage, non-root image and a health check (Lab 2)
