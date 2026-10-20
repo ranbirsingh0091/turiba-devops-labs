@@ -12,11 +12,11 @@ services:
     environment:
       POSTGRES_USER: todo
       POSTGRES_DB: todo
-      POSTGRES_PASSWORD: ${${DB_PASSWORD}:?set DB_PASSWORD in .env}   # which variable in .env? (slide 46)
+      POSTGRES_PASSWORD: ${____:?set DB_PASSWORD in .env}   # which variable in .env? (slide 46)
     volumes:
-      - ${DB_PASSWORD}:/var/lib/postgresql/data     # a named volume: which name? Declare it at the bottom too (slide 30)
+      - ____:/var/lib/postgresql/data     # a named volume: which name? Declare it at the bottom too (slide 30)
     healthcheck:
-      test: ["CMD", "pg_isready", "-h", "${DB_PASSWORD}", "-U", "todo", "-d", "todo"]   # runs INSIDE db (slide 37)
+      test: ["CMD", "pg_isready", "-h", "____", "-U", "todo", "-d", "todo"]   # runs INSIDE db (slide 37)
       interval: 5s
       timeout: 3s
       retries: 10
@@ -27,20 +27,20 @@ services:
   # api:                                    # your Lab 2 Dockerfile
   #   build: ./api
   #   environment:
-  #     DB_HOST: ${DB_PASSWORD}                       # how does api find the database? (slide 24)
+  #     DB_HOST: ____                       # how does api find the database? (slide 24)
   #     DB_USER: todo
   #     DB_NAME: todo
-  #     DB_PASSWORD: ${${DB_PASSWORD}:?set DB_PASSWORD in .env}
+  #     DB_PASSWORD: ${____:?set DB_PASSWORD in .env}
   #   depends_on:
   #     db:
-  #       condition: ${DB_PASSWORD}                   # started is not ready (slide 37)
-  #   networks: [${DB_PASSWORD}, ${DB_PASSWORD}]                # api talks to web and to db (slide 27)
+  #       condition: ____                   # started is not ready (slide 37)
+  #   networks: [____, ____]                # api talks to web and to db (slide 27)
   #   restart: unless-stopped
 
   # web:                                    # nginx: the page + the reverse proxy
   #   build: ./web
   #   ports:
-  #     - "${DB_PASSWORD}:${DB_PASSWORD}"                       # HOST:CONTAINER. Browser: 8080, nginx: 80 (slide 25)
+  #     - "____:____"                       # HOST:CONTAINER. Browser: 8080, nginx: 80 (slide 25)
   #   depends_on:
   #     api:
   #       condition: service_started
@@ -53,4 +53,4 @@ networks:
   back:
 
 volumes:
-  ${DB_PASSWORD}:                                   # the same name as under db
+  ____:                                   # the same name as under db
