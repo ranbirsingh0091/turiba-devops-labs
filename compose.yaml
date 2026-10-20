@@ -12,7 +12,7 @@ services:
     environment:
       POSTGRES_USER: todo
       POSTGRES_DB: todo
-      POSTGRES_PASSWORD: ${____:?set DB_PASSWORD in .env}   # which variable in .env? (slide 46)
+    POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ____:/var/lib/postgresql/data     # a named volume: which name? Declare it at the bottom too (slide 30)
     healthcheck:
