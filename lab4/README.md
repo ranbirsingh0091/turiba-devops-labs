@@ -1,5 +1,8 @@
 # Lab 4: Multi-service app with Docker Compose
 
+## Architecture
+- Multi-tier application consisting of Web, API, and PostgreSQL database services.
+
 ## Predictions
 - Container startup order and health check dependencies will ensure the database is fully healthy before the API starts.
 
