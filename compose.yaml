@@ -1,56 +1,32 @@
-# compose.yaml: the course app as three services (Lab 4, Part 2).
-# Copy this file to the root of your fork:  cp lab04-multi-service-compose/compose.start.yaml compose.yaml
-# Then fill in every blank (four underscores). The comment at the end of a line asks the question; the slide has the answer.
-#   Step 2.2: the db service (active now).
-#   Step 2.3: uncomment api: select its lines and press Ctrl+/ in VS Code.
-#   Step 2.4: uncomment web the same way.
-name: course-app
-
 services:
-  db:
-    image: postgres:17-alpine
+  web:
+    build: ./web
+    ports:
+      - "8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+
+  api:
+    build: ./api
     environment:
-      POSTGRES_USER: todo
-      POSTGRES_DB: todo
-      POSTGRES_PASSWORD: ${${DB_PASSWORD}:?set DB_PASSWORD in .env}   # which variable in .env? (slide 46)
+      - DB_HOST=db
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=app
     volumes:
-      - ${DB_PASSWORD}:/var/lib/postgresql/data     # a named volume: which name? Declare it at the bottom too (slide 30)
+      - db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-h", "${DB_PASSWORD}", "-U", "todo", "-d", "todo"]   # runs INSIDE db (slide 37)
+      test: ["CMD-SHELL", "pg_isready -U postgres -d app"]
       interval: 5s
-      timeout: 3s
-      retries: 10
-      start_period: 10s
-    networks: [back]                      # no ports: unreachable from the laptop
-    restart: unless-stopped
-
-  # api:                                    # your Lab 2 Dockerfile
-  #   build: ./api
-  #   environment:
-  #     DB_HOST: ${DB_PASSWORD}                       # how does api find the database? (slide 24)
-  #     DB_USER: todo
-  #     DB_NAME: todo
-  #     DB_PASSWORD: ${${DB_PASSWORD}:?set DB_PASSWORD in .env}
-  #   depends_on:
-  #     db:
-  #       condition: ${DB_PASSWORD}                   # started is not ready (slide 37)
-  #   networks: [${DB_PASSWORD}, ${DB_PASSWORD}]                # api talks to web and to db (slide 27)
-  #   restart: unless-stopped
-
-  # web:                                    # nginx: the page + the reverse proxy
-  #   build: ./web
-  #   ports:
-  #     - "${DB_PASSWORD}:${DB_PASSWORD}"                       # HOST:CONTAINER. Browser: 8080, nginx: 80 (slide 25)
-  #   depends_on:
-  #     api:
-  #       condition: service_started
-  #       restart: true                     # api recreated → restart web (slide 35)
-  #   networks: [front]
-  #   restart: unless-stopped
-
-networks:
-  front:
-  back:
+      timeout: 5s
+      retries: 5
 
 volumes:
-  ${DB_PASSWORD}:                                   # the same name as under db
+  db-data:
