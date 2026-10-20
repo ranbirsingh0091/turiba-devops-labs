@@ -11,7 +11,7 @@ services:
     build: ./api
     environment:
       - DB_HOST=db
-      - DB_PASSWORD=${DB_PASSWORD:-secret_password_123}
+      - DB_PASSWORD=${DB_PASSWORD}
     depends_on:
       db:
         condition: service_healthy
@@ -19,7 +19,7 @@ services:
   db:
     image: postgres:17
     environment:
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-secret_password_123}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=app
     volumes:
       - db-data:/var/lib/postgresql/data
