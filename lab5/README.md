@@ -1,6 +1,6 @@
 # Lab 5 · Your first CI pipeline
 
-GitHub user: <you> · Reference files used (Lab 2 fallback): no
+GitHub user: ranbirsingh0091 · Reference files used (Lab 2 fallback): no
 
 ![ci](https://github.com/<you>/turiba-devops-labs/actions/workflows/ci.yml/badge.svg?branch=main)
 
@@ -18,18 +18,18 @@ ____
 
 | # | Question | I predicted, and why | What the run showed |
 |---|----------|----------------------|---------------------|
-| P1 | Which jobs start together? | ____ | ____ |
-| P2 | Will `graph-package` find `build.txt`? | ____ | ____ |
-| P3 | With `break = build`: which jobs run, which fail, which are skipped? | ____ | ____ |
+| P1 | Which jobs start together? | graph-build starts first. Then graph-test and graph-package start together. | Not run yet |
+| P2 | Will `graph-package` find `build.txt`? | graph-build starts first. Then graph-test and graph-package start together. | Not run yet |
+| P3 | With `break = build`: which jobs run, which fail, which are skipped? | graph-build starts first. Then graph-test and graph-package start together. | Not run yet |
 
 ## 2 · Pipeline
 
-- B5, before I filled it in: `localhost` or `db`? I predicted ____ because ____
+- B5, before I filled it in: `localhost` or `db`? I predicted localhost. The steps run on the runner VM, so the database is on localhost._ because ____
 - My first red run in Part 2 (the job, the first red step, the error line copied from the log): ____
 - What I changed to make it green: ____
 - My lint findings, and how I fixed them (fixed, not silenced): ____
 - Part 2 pull request (URL): ____
-- Part 3: will the PR run push an image? I predicted ____. What happened: ____
+- Part 3: will the PR run push an image? I predicted localhost. The steps run on the runner VM, so the database is on localhost._. What happened: ____
 - My image on GHCR, from the `main` run: `ghcr.io/____/turiba-devops-labs/api:____`
 
 ## 3 · Red PR
