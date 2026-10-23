@@ -91,3 +91,16 @@ ensureSchema()
   });
 
 // Lab 2 (step 2.4): add the SIGTERM handler here.
+
+// Graceful shutdown handler for Docker and CI
+const shutdown = (signal) => {
+  console.log(`${signal} received. Shutting down gracefully...`);
+  server.close(() => {
+    console.log('HTTP server closed.');
+    if (pool.end) pool.end();
+    process.exit(0);
+  });
+};
+
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
