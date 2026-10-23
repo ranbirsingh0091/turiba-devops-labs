@@ -61,6 +61,7 @@ app.patch('/api/todos/:id', async (req, res) => {
 });
 
 app.delete('/api/todos/:id', async (req, res) => {
+if (!/^\d+$/.test(req.params.id)) return res.status(404).json({ error: 'todo not found' });
   const { rowCount } = await pool.query('DELETE FROM todos WHERE id = $1', [req.params.id]);
   if (rowCount === 0) return res.status(404).json({ error: 'todo not found' });
   res.status(204).end();
@@ -91,3 +92,16 @@ ensureSchema()
   });
 
 // Lab 2 (step 2.4): add the SIGTERM handler here.
+
+// Graceful shutdown handler for Docker and CI
+const shutdown = (signal) => {
+  console.log(`${signal} received. Shutting down gracefully...`);
+  server.close(() => {
+    console.log('HTTP server closed.');
+    if (pool.end) pool.end();
+    process.exit(0);
+  });
+};
+
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
