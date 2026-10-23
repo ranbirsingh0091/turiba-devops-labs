@@ -12,7 +12,7 @@ name: ci
 
 on:
   push:
-    branches: [branches: [main]]                                # B1: which branch gets push runs? (slide 9)
+    branches: [main]                                # B1: which branch gets push runs? (slide 9)
   pull_request:
     branches: [main]
 
