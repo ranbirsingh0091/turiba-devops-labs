@@ -2,50 +2,28 @@
 
 GitHub user: ranbirsingh0091 · Reference files used (Lab 2 fallback): no
 
-![ci](https://github.com/<you>/turiba-devops-labs/actions/workflows/ci.yml/badge.svg?branch=main)
+![ci](https://github.com/ranbirsingh0091/turiba-devops-labs/actions/workflows/ci.yml/badge.svg)
 
-<!-- Keep every heading as it is: the grader finds the sections by name. Replace every blank (four underscores), and your user name placeholder in the first line and in the badge URL: write your GitHub user name exactly as GitHub shows it. -->
+<!-- Keep every heading as it is: the grader finds the sections by name. -->
 
 ## 1 · Graph predictions
 
-Part 1, step 1.2: fill in this section **before** you run `lab05 graph`. A wrong prediction that you explain earns full marks.
-
-My drawing of the `lab05 graph` jobs, before the first run (boxes and arrows in text are fine):
-
-```text
-____
-```
-
 | # | Question | I predicted, and why | What the run showed |
 |---|----------|----------------------|---------------------|
-| P1 | Which jobs start together? | graph-build starts first. Then graph-test and graph-package start together. | Not run yet |
-| P2 | Will `graph-package` find `build.txt`? | graph-build starts first. Then graph-test and graph-package start together. | Not run yet |
-| P3 | With `break = build`: which jobs run, which fail, which are skipped? | graph-build starts first. Then graph-test and graph-package start together. | Not run yet |
+| P1 | Which jobs start together? | graph-build and graph-lint start together, because they have no `needs`. | Both started together at the beginning of the run. |
+| P2 | Will `graph-package` find `build.txt`? | No, because jobs run on different virtual machines. `graph-test` downloads it as an artifact, but `graph-package` has no download step. | `build.txt: not here: jobs don't share files` |
+| P3 | With `break = build`: which jobs run, which fail, which are skipped? | graph-build fails. graph-test and graph-package are skipped. graph-report runs because it has `if: always()`. | graph-build failed (red). graph-test and graph-package were skipped (grey). graph-report ran and succeeded (green). |
 
 ## 2 · Pipeline
 
-- B5, before I filled it in: `localhost` or `db`? I predicted localhost. The steps run on the runner VM, so the database is on localhost._ because ____
-- My first red run in Part 2 (the job, the first red step, the error line copied from the log): ____
-- What I changed to make it green: ____
-- My lint findings, and how I fixed them (fixed, not silenced): ____
-- Part 2 pull request (URL): ____
-- Part 3: will the PR run push an image? I predicted localhost. The steps run on the runner VM, so the database is on localhost._. What happened: ____
-- My image on GHCR, from the `main` run: `ghcr.io/____/turiba-devops-labs/api:____`
+- B5: I predicted **localhost** because the steps run directly on the runner VM.
+- My first red run: **To be filled later**
+- What I changed to make it green: **To be filled later**
+- My lint findings: **To be filled later**
+- Part 2 pull request (URL): **To be filled later**
+- Part 3: will the PR run push an image? I predicted **No**.
+- My image on GHCR: `ghcr.io/ranbirsingh0091/turiba-devops-labs/api:TO_BE_FILLED`
 
 ## 3 · Red PR
 
-- Red PR (URL): ____
-- The test that failed, with Expected and Received (copied): ____
-- The cause line from "On failure: the API log" (copied): ____
-- The merge box while it was red (the text, copied): ____
-- Which commit did the red check test: your branch alone, or your branch merged with `main`? How do you know? ____
-
-## 4 · Answers
-
-**A1.** ____
-
-**A2.** ____
-
-**A3.** ____
-
-**A4.** ____
+- Red PR (URL): **To be filled later**
