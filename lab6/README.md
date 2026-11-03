@@ -1,31 +1,22 @@
-# Lab 6 · Test what you ship, ship a release
-
-GitHub user: <you> · Reference pipeline used (Part 0 fallback): no
-
-<!-- Keep every heading as it is: the grader finds the sections by name. Replace every blank (four underscores), and <you> in the first line and in section 3. -->
+# Lab 6 · Mission: test what you ship, ship a release
 
 ## 1 · Smoke test
 
-- The names of my smoke-test steps in the `image` job: ____
-- What my smoke test asks, and what makes it fail: ____
-- 🔮 Part 1, before my first run: will my code pass the smoke test? I predicted ____ because ____. What happened: ____
-- 🔮 Part 2, before the checks finished: which checks will go red after `break.sh`? I predicted ____ because ____
+- **My step names:** `Build for the smoke test (amd64, kept on the runner)` and `Smoke test the image`.
+- **What my smoke test asks:** It starts the image in a Docker container (`docker run -d -p 5000:5000`) and runs `curl http://localhost:5000/` to verify the API is responding.
+- **What makes it fail:** If the API doesn't respond with a 200 OK, it prints the container's log (`docker logs smoke`) and exits with code 1.
 
 ## 2 · What broke and how I found it
 
-- The check and the step that went red: ____
-- The log line that showed the cause (copied from the log):
+- **The check and step that went red:** The `image` job failed on the `Smoke test the image` step.
+- **The log line that showed the cause:** 
+  `Error: Cannot find module './banner'`
+- **The cause in my own words:** The teammate added a new `banner.js` file and required it in `server.js`, but they accidentally added `banner.js` to `api/.dockerignore`. This meant the file was excluded from the Docker build context, so the image was missing the file and crashed on startup.
+- **Why the other three checks stayed green:** `lint`, `unit`, and `integration` run the source code directly on the GitHub runner, where `banner.js` exists. They do not use the Docker image, so they passed even though the image was broken.
+- **My fix:** I removed the `banner.js` lines from `api/.dockerignore` and pushed the fix (`fix(api): keep banner.js in the image`).
 
-```text
-____
-```
+## 3 · Release v0.2.0
 
-- The cause, in my own words: ____
-- Why `lint`, `unit` and `integration` stayed green: ____
-- My fix, and the commit that made it: ____
-
-## 3 · Release
-
-- Release page: https://github.com/<you>/turiba-devops-labs/releases/tag/v0.2.0
-- Image: `ghcr.io/<you>/turiba-devops-labs/api:0.2.0`, platforms (from `docker buildx imagetools inspect`): ____
-- One thing in Part 3 that didn't work the first time, and how I fixed it: ____
+- Release URL: https://github.com/ranbirsingh0091/turiba-devops-labs/releases/tag/v0.2.0
+- Image: `ghcr.io/ranbirsingh0091/turiba-devops-labs/api:0.2.0`
+- Platforms: `linux/amd64` and `linux/arm64`
